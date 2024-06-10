@@ -1,0 +1,41 @@
+/*.all-content {
+     background-color: brown; */
+
+
+.navbar-container .mat-toolbar a {
+    text-decoration: none;
+    color: white; /* Adjust the color */
+    margin-right: 20px; /* Adjust the spacing between items */
+  }
+  
+  .navbar-container .mat-toolbar a:last-child {
+    margin-right: 0; /* Remove margin from the last item */
+  }
+  
+  
+  .mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px; /* Adjust as needed */
+  }
+  
+  .mat-toolbar a {
+    text-decoration: none;
+    color: white; /* Adjust the color */
+    margin-right: 20px; /* Adjust the spacing between items */
+  }
+  
+  .mat-toolbar a:last-child {
+    margin-right: 0; /* Remove margin from the last item */
+  }
+  
+.logo {
+    margin: 0 auto; /* Center the logo */
+}
+
+.toolbar-item a {
+    border: 1px solid #5883ac; /* Add a border to the items */
+    padding: 10px; /* Add some padding */
+    margin: 5px; /* Add some margin */
+}

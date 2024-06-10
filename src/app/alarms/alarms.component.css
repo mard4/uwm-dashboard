@@ -1,0 +1,68 @@
+
+.content {
+    margin-top: 2px;
+    margin-left: 20px;
+    margin-right: 20px;
+    /* margin-bottom: 20px; */
+    /* background-color: rgb(170, 161, 161); */
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-container {
+    display: flex;
+    width: 50%;
+}
+
+.tab-group {
+    margin-top:20px;
+
+}
+.card-container {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-evenly;
+width: 100%;
+}
+
+.card-wrapper {
+width: 80%; /* Adjust the width as needed */
+height: 20%;
+margin-bottom: 60px; /* Add some margin between cards */
+margin-left: 30px;
+padding: 5px;
+padding-right: 30px;
+}
+
+.mat-card {
+background-color: #9fb1c9;
+padding: 5px;
+border: 10px solid;
+align-items: center;
+}
+
+.mat-card-content {
+color: #e8f0f3;
+text-align: center;
+}
+
+.card-content {
+    text-align: center;
+}
+
+.mat-tooltip {
+    background-color: yellow; /* Replace with your desired background color */
+    color: yellow; /* Replace with your desired text color */
+  }
+
+.ok {
+background: linear-gradient(to bottom, #1a6c1a, #238823);
+}
+
+.stop {
+background: linear-gradient(to bottom, #b22222, #8b0000);
+}
+
+.quasi {
+background: linear-gradient(to bottom, #ff9100c4, #FF9D00);
+}
