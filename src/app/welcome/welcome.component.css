@@ -12,6 +12,22 @@
   text-align: center;
 }
 
+@keyframes zoomOut {
+  0% {
+      transform: scale(1.5);
+      opacity: 0;
+  }
+  100% {
+      transform: scale(1);
+      opacity: 1;
+  }
+}
+
+.zoom-out-image {
+  animation: zoomOut 1s ease-out forwards;
+}
+
+
 .header-content h1 {
   margin: 0;
   font-size: 2.5em;
@@ -178,7 +194,7 @@
 .ag-courses-item_bg {
   height: 128px;
   width: 128px;
-  background-color: #f9b234;
+  background-color: #5fd1ee;
   z-index: 1;
   position: absolute;
   top: -75px;
@@ -192,7 +208,7 @@
 }
 
 .ag-courses_item:nth-child(3n) .ag-courses-item_bg {
-  background-color: #e44002;
+  background-color: #f9b234;
 }
 
 .ag-courses_item:nth-child(4n) .ag-courses-item_bg {
