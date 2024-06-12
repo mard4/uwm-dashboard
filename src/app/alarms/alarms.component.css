@@ -20,7 +20,7 @@
 .table-container {
   width: 100%; /* Full width for the table container */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
-  margin-top: 20px; /* Add spacing at the top */
+  margin-top: 2px; /* Add spacing at the top */
 }
 
 /* TAB GROUP */
