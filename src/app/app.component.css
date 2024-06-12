@@ -1,41 +1,173 @@
-/*.all-content {
+/* .all-content {
      background-color: brown; */
 
-
-.navbar-container .mat-toolbar a {
-    text-decoration: none;
-    color: white; /* Adjust the color */
-    margin-right: 20px; /* Adjust the spacing between items */
-  }
-  
-  .navbar-container .mat-toolbar a:last-child {
-    margin-right: 0; /* Remove margin from the last item */
-  }
-  
-  
-  .mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px; /* Adjust as needed */
-  }
-  
-  .mat-toolbar a {
-    text-decoration: none;
-    color: white; /* Adjust the color */
-    margin-right: 20px; /* Adjust the spacing between items */
-  }
-  
-  .mat-toolbar a:last-child {
-    margin-right: 0; /* Remove margin from the last item */
-  }
-  
-.logo {
-    margin: 0 auto; /* Center the logo */
+.logo-title {
+  display: flex;
+  align-items: center;
 }
 
-.toolbar-item a {
-    border: 1px solid #5883ac; /* Add a border to the items */
-    padding: 10px; /* Add some padding */
-    margin: 5px; /* Add some margin */
+.logo {
+  width: 60px; /* Adjust logo size */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Space between logo and title */
+}
+
+.title {
+  font-size: 20px; /* Adjust title font size */
+  font-weight: bold; /* Make title bold */
+  color: white; /* Ensure title text is white */
+}
+/* NAVBAR STYLES */
+.navbar-container {
+  background-color: #151e27; /* Dark background for the navbar */
+  color: white; /* Light text color */
+}
+
+.navbar-container .mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* Padding inside the navbar */
+}
+
+.navbar-container .mat-toolbar a {
+  text-decoration: none;
+  color: white; 
+  margin-right: 20px; /* Spacing between items */
+}
+
+.navbar-container .mat-toolbar a:last-child {
+  margin-right: 0; /* Remove margin from the last item */
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+
+
+
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+.main-container {
+  display: flex;
+  flex-grow: 1; /* Makes main-container fill the height after the toolbar */
+}
+
+.sidebar-container {
+  flex-grow: 0; /* Adjust based on sidebar width preference */
+  width: 400px; /* Example fixed width for the sidebar */
+}
+
+.content-container {
+  flex-grow: 1; /* Takes up remaining space */
+  padding: 30px; /* Optional padding */
+}
+
+/* SIDEBAR CONTAINER */
+.go-container {
+  height: 100vh; /* Full viewport height */
+}
+
+/* SIDEBAR CONTENT */
+.go-sidenav {
+  width: 300px; /* Fixed sidebar width */
+  background-color: #2c3e50; /* Dark background for sidebar */
+  color: #ecf0f1; /* Light text color */
+}
+
+.go-sidenav mat-nav-list {
+  padding: 10px 0; /* Padding inside the nav list */
+}
+
+.go-sidenav mat-nav-list a {
+  font-size: 24px; /* Large font size for better readability */
+  height: 60px; /* Height adjusted for better spacing */
+  line-height: 60px; /* Line height for vertical center alignment of text */
+  display: flex;
+  align-items: center; /* Ensures vertical centering of text and icon */
+  padding: 10px 20px; /* Padding for each link */
+  color: inherit; /* Inherit text color */
+  text-decoration: none; /* Remove underline from links */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.go-sidenav mat-nav-list a:hover {
+  background-color: #34495e; /* Slightly darker background on hover */
+}
+
+.go-sidenav mat-nav-list a.active-link {
+  background-color: #1abc9c; /* Highlight active link with a distinct color */
+  color: #ffffff; /* Ensure text color contrast on active link */
+}
+
+.go-sidenav mat-icon {
+  font-size: 30px; /* Icon size to match the text size */
+  margin-right: 15px; /* Space between icon and text */
+  color: inherit; /* Inherit icon color */
+}
+
+
+/* NAVBAR STYLES */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* Padding inside the navbar */
+  background-color: #2c3e50; /* Dark background for the navbar */
+  color: white; /* Light text color */
+}
+
+.menu-button {
+  color: white; /* Icon button color */
+}
+
+
+/* SIDEBAR CONTAINER */
+.go-sidenav {
+  width: 300px; /* Fixed sidebar width */
+  background-color: #2c3e50; /* Dark background for sidebar */
+  color: #ecf0f1; /* Light text color */
+  height: 100vh; /* Full viewport height */
+  position: fixed; /* Fixed positioning */
+  left: 0; /* Align to the left edge */
+  top: 0; /* Align to the top edge */
+}
+
+.go-sidenav mat-nav-list {
+  padding: 10px 0; /* Padding inside the nav list */
+}
+
+.go-sidenav mat-nav-list a {
+  font-size: 30px; /* Large font size for better readability */
+  height: 80px; /* Height adjusted for better spacing */
+  line-height: 80px; /* Line height for vertical center alignment of text */
+  display: flex;
+  align-items: center; /* Ensures vertical centering of text and icon */
+  padding: 10px 20px; /* Padding for each link */
+  color: inherit; /* Inherit text color */
+  text-decoration: none; /* Remove underline from links */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.go-sidenav mat-nav-list a:hover {
+  background-color: #34495e; /* Slightly darker background on hover */
+}
+
+.go-sidenav mat-nav-list a.active-link {
+  background-color: #1abc9c; /* Highlight active link with a distinct color */
+  color: #ffffff; /* Ensure text color contrast on active link */
+}
+
+.go-sidenav mat-icon {
+  font-size: 24px; /* Icon size to match the text size */
+  margin-right: 15px; /* Space between icon and text */
+  color: inherit; /* Inherit icon color */
 }

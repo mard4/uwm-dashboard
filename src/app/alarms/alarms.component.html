@@ -1,61 +1,57 @@
-<div class="content">
-  <div class="tab-group">
-    <div class="col-md-12">
-      <h2 style="color: whitesmoke; text-align: center;">LIVE</h2>
-      <p style="color:#ffd700;text-align: center;padding-bottom: 1%;">Click on a bin name to get details</p>
-          
- 
-      <div class="card-container" layout="row wrap">
-        <div *ngFor="let key of getObjectKeys(data)">
-          <div *ngFor="let item of data[key]" class="card-wrapper">
-            <mat-card class="card" 
-                 [ngClass]="{
-                   'ok': item.filllevel <= 70 || item.filllevel === 0,
-                   'stop': item.filllevel > 80,
-                   'quasi': item.filllevel > 65 && item.filllevel < 80
-                 }">
-              <mat-card-content class="card-content" matTooltip="Last timestamp: {{ item.datetime }}">
-                <span class="md-headline">
-                  <font color="white" size="5">
-                    <strong>
-                      <a style="color:#ffd700; font-size:5; cursor: pointer;" (click)="openDialog(item)">{{ item.dev_id }}</a>
-                    </strong>
-                  </font>
-                </span>
+<div class="main-content">
+  <div class="content">
+    <div class="tab-group">
+      <div class="col-md-12">
+        <h2 style="color: whitesmoke; text-align: center;">LIVE</h2>
+        <p style="color:#ffd700; text-align: center; padding-bottom: 1%;">Click on a bin name to get details</p>
 
-                
-                <br/>
-                <span class="md-card-content"><font color="white" size="3.5">fill level:</font></span><br>
-                <span class="md-card-content"><font color="black" size="4.5"><strong>{{ item.filllevel | number: '1.2-2' }}</strong></font></span>
-                <br/>
-                <span class="md-card-content"><font color="white" size="3.5">battery:</font></span><br>
-                <span class="md-card-content"><font color="black" size="4.5"><strong>{{ item.battery | number: '1.2-2' }}</strong></font></span>
-                <br/>
-                <span class="md-card-content"><font color="white" size="3.5">temperature:</font></span><br>
-                <span class="md-card-content"><font color="black" size="4.5"><strong>{{ item.temperature | number: '1.2-2' }}</strong></font></span>
-              </mat-card-content>
-            </mat-card>
+        <div class="card-container">
+          <div *ngFor="let key of getObjectKeys(data)">
+            <div *ngFor="let item of data[key]" class="card-wrapper">
+              <mat-card class="card" 
+                    [ngClass]="{
+                      'ok': item.filllevel <= 70 || item.filllevel === 0,
+                      'stop': item.filllevel > 80,
+                      'quasi': item.filllevel > 65 && item.filllevel < 80
+                    }">
+                <mat-card-content class="card-content" matTooltip="Last timestamp: {{ item.datetime }}">
+                  <span class="md-headline">
+                    <font color="white" size="5">
+                      <strong>
+                        <a style="color:#ffd700; font-size:5; cursor: pointer;" (click)="openDialog(item)">{{ item.dev_id }}</a>
+                      </strong>
+                    </font>
+                  </span>
+                  <br/>
+                  <span class="md-card-content"><font color="white" size="3.5">fill level:</font></span><br>
+                  <span class="md-card-content"><font color="black" size="4.5"><strong>{{ item.filllevel | number: '1.2-2' }}</strong></font></span>
+                  <br/>
+                  <span class="md-card-content"><font color="white" size="3.5">battery:</font></span><br>
+                  <span class="md-card-content"><font color="black" size="4.5"><strong>{{ item.battery | number: '1.2-2' }}</strong></font></span>
+                  <br/>
+                  <span class="md-card-content"><font color="white" size="3.5">temperature:</font></span><br>
+                  <span class="md-card-content"><font color="black" size="4.5"><strong>{{ item.temperature | number: '1.2-2' }}</strong></font></span>
+                </mat-card-content>
+              </mat-card>
+            </div>
           </div>
         </div>
+
+        <div class="table-container">
+          <mat-table class="mat-elevation-z8" [dataSource]="data2">
+            <!-- Dynamic column headers -->
+            <ng-container *ngFor="let column of columnsToDisplay" [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef> {{ column | titlecase }} </th>
+              <td mat-cell *matCellDef="let item"> {{ item[column] }} </td>
+            </ng-container>
+
+            <!-- Header row -->
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <!-- Data rows -->
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+          </mat-table>
+        </div>
       </div>
-
-
-  <div class="table-container">
-    <mat-table class="mat-elevation-z8" [dataSource]="data2">
-      <!-- Dynamic column headers -->
-      <ng-container *ngFor="let column of columnsToDisplay" [matColumnDef]="column">
-        <th mat-header-cell *matHeaderCellDef> {{ column | titlecase }} </th>
-        <td mat-cell *matCellDef="let item"> {{ item[column] }} </td>
-      </ng-container>
-
-      <!-- Header row -->
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <!-- Data rows -->
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-    </mat-table>
+    </div>
   </div>
-
-
-</div>    
-</div>
 </div>
