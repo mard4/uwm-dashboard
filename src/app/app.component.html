@@ -1,59 +1,36 @@
-<div class="all-content">
-  <div class="navbar-container">
-    <mat-toolbar color="primary">
-      
-      <div fxShow="true" fxHide.lt-md="true" class="toolbar-item">
-        <a routerLink="/alarms" routerLinkActive="active">
-          <img src="/img/alarm.png" width="30" alt="Alarm Icon">
-          Live Alarm
-        </a>
-        <a routerLink="/dashboard" routerLinkActive="active">
-          <img src="/img/dashboard.png" width="30" alt="Dashboard Icon">
-          Dashboard
-        </a>
-      </div>
-      
-      <img src="/img/recycle-bin.png" alt="Logo" class="logo" width="60" height="60">
-      
-      <span>Urban Waste Management</span>
-      
-      <div fxShow="true" fxHide.gt-sm="true" class="toolbar-item">
-        <a href="#">Show Side Menu</a>
-      </div>
-    </mat-toolbar>
+<div class="app-container">
+  <mat-toolbar color="primary" class="navbar-container">
+    <button mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="logo-title">
+    <img src="/img/recycle-bin.png" alt="Logo" class="logo" width="60" height="50">
+    <span style="font-weight:bold;">Urban Waste Management</span>  
   </div>
-
-<router-outlet></router-outlet>
-
-</div>
-
-
-<!-- <div style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-halo
-<mat-slide-toggle>Slide me!</mat-slide-toggle>
-</div> -->
-
-
-  <!-- <form action="" style="display: flex; 
-                      align-items: center;
-                      justify-content: center; height: 100vh; flex-direction: column; gap: 20px;
-                      width: 300px;
-                      margin: auto;">
-  <mat-form-field appearance="fill">
-    <mat-label>ENter name</mat-label>
-    <mat-select>
-      <mat-option value="1">pziza</mat-option>
-      <mat-option value="2">amb</mat-option>
-      <mat-option value="3">z</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker">
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+  </mat-toolbar>
   
-  </form> -->
+  <div class="main-container">
+    <mat-drawer-container class="go-container" autosize>
+      <mat-drawer #drawer class="go-sidenav" mode="side" opened="true">
+        <mat-nav-list>
+          <a mat-list-item routerLink="/welcome" routerLinkActive="active-link">
+            <mat-icon>home</mat-icon> 
+            Home</a>
+          <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+            <mat-icon>dashboard</mat-icon> 
+            Dashboard</a>
+          <a mat-list-item routerLink="/alarms" routerLinkActive="active-link">
+            <mat-icon>alarm</mat-icon> 
+            Alarms
+          </a>
+          <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
+            <mat-icon>settings</mat-icon> 
+            Settings</a>
+        </mat-nav-list>
+      </mat-drawer>
+    </mat-drawer-container>
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
