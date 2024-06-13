@@ -1,46 +1,40 @@
-import { Component, AfterViewInit,inject } from '@angular/core';
-import {MatToolbarModule} from '@angular/material/toolbar'
-import {FlexLayoutModule} from '@angular/flex-layout'
-import {MatGridListModule} from '@angular/material/grid-list'
-import {MatTableModule} from '@angular/material/table'
-
-import {MatDialogModule} from '@angular/material/dialog'
+import { Component, AfterViewInit } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
-import { Dialog } from '@angular/cdk/dialog';
 import Chart from 'chart.js/auto';
 import { ChartConfiguration } from 'chart.js';
-import { BoxPlotChart } from '@sgratzl/chartjs-chart-boxplot';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
+
 PlotlyModule.plotlyjs = PlotlyJS;
-
-
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatToolbarModule,
+  imports: [
+    MatToolbarModule,
     FlexLayoutModule,
     MatGridListModule,
     MatTableModule,
     MatDialogModule,
-    DialogComponent
-    ],
+    DialogComponent,
+    MatCardModule,
+    PlotlyModule
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
-
-
 export class DashboardComponent implements AfterViewInit {
-
-  //constructor(@Inject(Dialog) private dialog: Dialog) { }
-
 
   ngAfterViewInit(): void {
     this.Barplot();
-    this.regressLine('myChart2'); // Call initializeChart for the second chart
-    //this.Boxplot('myChart3')
-
+    this.regressLine('myChart2');
+    this.initPlotly();
   }
 
   Barplot(): void {
@@ -81,9 +75,8 @@ export class DashboardComponent implements AfterViewInit {
     });
   }
 
-  // regression line
   regressLine(canvasId: string): void {
-    const ctx = document.getElementById('myChart2') as HTMLCanvasElement;
+    const ctx = document.getElementById(canvasId) as HTMLCanvasElement;
 
     const data = [
       { x: 0, y: 0 },
@@ -96,7 +89,7 @@ export class DashboardComponent implements AfterViewInit {
       { x: 7, y: 14 }
     ];
     const regressionLine = [0, 2, 4, 6, 8, 10, 12, 14];
-  
+
     const config: ChartConfiguration<'scatter'> = {
       type: 'scatter',
       data: {
@@ -108,7 +101,7 @@ export class DashboardComponent implements AfterViewInit {
           showLine: false 
         }, {
           label: 'Regression Line',
-          data: regressionLine.map((y, index) => ({ x: index, y: y })),//regressionLine,
+          data: regressionLine.map((y, index) => ({ x: index, y: y })),
           borderColor: 'rgba(255, 99, 132, 10)',
           fill: false,
           showLine: true
@@ -119,30 +112,30 @@ export class DashboardComponent implements AfterViewInit {
           x: {
             title: {
               display: true,
-              color: 'white', // Set x-axis label color
+              color: 'white',
               font: {
-                size: 16 // Set x-axis label font size
+                size: 16
               },
-              text: 'X Axis Label' // Set x-axis label text
+              text: 'X Axis Label'
             },
             ticks: {
               font: {
-                size: 18 // Set x-axis tick font size
+                size: 18
               }
             }
           },
           y: {
             title: {
               display: true,
-              color: 'white', // Set y-axis label color
+              color: 'white',
               font: {
-                size: 16 // Set y-axis label font size
+                size: 16
               },
-              text: 'Y Axis Label' // Set y-axis label text
+              text: 'Y Axis Label'
             },
             ticks: {
               font: {
-                size: 18 // Set y-axis tick font size
+                size: 18
               }
             }
           }
@@ -150,22 +143,28 @@ export class DashboardComponent implements AfterViewInit {
         plugins: {
           legend: {
             labels: {
-              color: 'red', // Set legend label color
+              color: 'red',
               font: {
-                size: 16 // Set legend label font size
+                size: 16
               }
             }
           }
         }
       }
     };
-  
-  
+
     new Chart(ctx, config);
   }
 
-  //// boxplot
- 
+  initPlotly(): void {
+    const data: Partial<Plotly.Data>[] = [
+      {
+        x: ['giraffes', 'orangutans', 'monkeys'],
+        y: [20, 14, 23],
+        type: 'bar'
+      }
+    ];
 
-
+    PlotlyJS.newPlot('myDiv', data);
+  }
 }

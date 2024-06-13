@@ -1,22 +1,115 @@
+<h1 class="dashboard-title">Dashboard</h1>
+
+<mat-grid-list cols="4" rowHeight="2:1" gutterSize="10px">
+  <!-- First Row -->
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-title>📈 KPI 1</mat-card-title>
+      <mat-card-content>
+        <p>Value: 123</p>
+        <p>Description: 📊 Growth in sales</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-title>📉 KPI 2</mat-card-title>
+      <mat-card-content>
+        <p>Value: 456</p>
+        <p>Description: 💡 Cost reduction</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-title>💼 KPI 3</mat-card-title>
+      <mat-card-content>
+        <p>Value: 789</p>
+        <p>Description: 🚀 Project completions</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card class="kpi-card">
+      <div class="kpi-header">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" class="kpi-icon">
+      </div>
+      <mat-card-content>
+        <p class="kpi-title">Followers</p>
+        <p class="kpi-value">+562</p>
+        <p class="kpi-update"><span class="update-icon">⏰</span> just update</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
 
 
-<mat-grid-list cols="2" rowHeight="2:1">
-    
-    <mat-grid-tile>
-      <canvas id="myChart" width="400" height="400"></canvas>
-    </mat-grid-tile>
-   
-    <mat-grid-tile>
-      <canvas id="myChart2" width="400" height="400"></canvas>
-    </mat-grid-tile>
-   
-    <mat-grid-tile>
-      <iframe src="https://data.melbourne.vic.gov.au/explore/embed/dataset/netvox-r718x-bin-sensor/map/?disjunctive.dev_id&sort=time&location=18,-37.80226,144.9659&basemap=mbs-7a7333&static=false&datasetcard=false&scrollWheelZoom=false" width="600" height="400" frameborder="0"></iframe>
-        <!-- <canvas id="myChart3" width="400" height="400"></canvas> -->
-    </mat-grid-tile>
 
-    <mat-grid-tile>
-        <!-- <canvas id="myChart4" width="400" height="400"></canvas> -->
-    </mat-grid-tile>
-  </mat-grid-list>
+<mat-grid-list cols="4" rowHeight="1:1">
+  <!-- First Row -->
+  <mat-grid-tile colspan="2">
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </mat-grid-tile>
   
+  <mat-grid-tile colspan="2">
+    <canvas id="myChart2" width="400" height="400"></canvas>
+  </mat-grid-tile>
+
+  <!-- Second Row -->
+  <mat-grid-tile colspan="4">
+    mappa
+    <!-- <iframe src="https://data.melbourne.vic.gov.au/explore/embed/dataset/netvox-r718x-bin-sensor/map/?disjunctive.dev_id&sort=time&location=18,-37.80226,144.9659&basemap=mbs-7a7333&static=false&datasetcard=false&scrollWheelZoom=false" width="100%" height="300" frameborder="0"></iframe> -->
+  </mat-grid-tile>
+
+  <!-- Third Row -->
+  <mat-grid-tile colspan="2">
+    <div id="myDiv"></div>
+
+    <!-- <canvas id="myChart3" width="400" height="400"></canvas> -->
+  </mat-grid-tile>
+  
+  <mat-grid-tile colspan="2">
+    4
+    <!-- <canvas id="myChart4" width="400" height="400"></canvas> -->
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+<h1 class="dashboard-title">Other plots</h1>
+
+<mat-grid-list cols="4" rowHeight="2:1" gutterSize="10px">
+  <!-- First Row -->
+  <mat-grid-tile colspan="1" rowspan="1">
+    <div>Content for tile 1</div>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1">
+    <div>Content for tile 2</div>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1">
+    <div>Content for tile 3</div>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1">
+    <div>Content for tile 4</div>
+  </mat-grid-tile>
+
+  <!-- Second Row -->
+  <mat-grid-tile colspan="2" rowspan="2">
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2" rowspan="1">
+    <div>Content for tile 6</div>
+  </mat-grid-tile>
+
+  <!-- Third Row -->
+  <mat-grid-tile colspan="1" rowspan="1">
+    <div>Content for tile 7</div>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1">
+    <div>Content for tile 8</div>
+  </mat-grid-tile>
+
+  <!-- Fourth Row -->
+  <mat-grid-tile colspan="4" rowspan="2">
+    <canvas id="myChart2" width="400" height="400"></canvas>
+  </mat-grid-tile>
+</mat-grid-list>

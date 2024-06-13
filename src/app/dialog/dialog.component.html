@@ -1,2 +1,70 @@
-<h1>DIALOG WORKS</h1>
-<!-- <h2>{{data.item.dev_id}}</h2> -->
+<!-- your-dialog.component.html -->
+<div mat-dialog-title>
+    <button class="close-button" mat-dialog-close>&times;</button>
+    <h4>Bin Details</h4>
+</div>
+<div mat-dialog-content>
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Device ID</td>
+            <td>{{ data.item.dev_id }}</td>
+        </tr>
+        <tr>
+            <td>Time</td>
+            <td>{{ data.item.time }}</td>
+        </tr>
+        <tr>
+            <td>Temperature</td>
+            <td>{{ data.item.temperature }}</td>
+        </tr>
+        <tr>
+            <td>Distance</td>
+            <td>{{ data.item.distance }}</td>
+        </tr>
+        <tr>
+            <td>Fill Level</td>
+            <td>{{ data.item.filllevel }}</td>
+        </tr>
+        <tr>
+            <td>Battery</td>
+            <td>{{ data.item.battery }}</td>
+        </tr>
+        <tr>
+            <td>Latitude</td>
+            <td>{{ data.item.latitude }}</td>
+        </tr>
+        <tr>
+            <td>Longitude</td>
+            <td>{{ data.item.longitude }}</td>
+        </tr>
+        <tr>
+            <td>Sensor Name</td>
+            <td>{{ data.item.sensor_name }}</td>
+        </tr>
+    </table>
+
+
+<img src="/img/recycle-bin.png" alt="Bin" class="bin-image" width="60%" height="60%">
+</div>
+
+
+
+<!-- <h1 mat-dialog-title>Item Details</h1>
+    <div mat-dialog-content>
+      <p><strong>Device ID:</strong> {{ data.item.dev_id }}</p>
+      <p><strong>Time:</strong> {{ data.item.time }}</p>
+      <p><strong>Temperature:</strong> {{ data.item.temperature }}</p>
+      <p><strong>Distance:</strong> {{ data.item.distance }}</p>
+      <p><strong>Fill Level:</strong> {{ data.item.filllevel }}</p>
+      <p><strong>Battery:</strong> {{ data.item.battery }}</p>
+      <p><strong>Latitude:</strong> {{ data.item.latitude }}</p>
+      <p><strong>Longitude:</strong> {{ data.item.longitude }}</p>
+      <p><strong>Sensor Name:</strong> {{ data.item.sensor_name }}</p>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>Close</button>
+</div> -->

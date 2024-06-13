@@ -1,12 +1,12 @@
 import {
   DomSanitizer
 } from "./chunk-Q7JPGHR2.js";
+import "./chunk-RIYKWKQN.js";
 import {
   BidiModule,
   Directionality,
   coerceBooleanProperty
 } from "./chunk-FDB5X4L3.js";
-import "./chunk-RIYKWKQN.js";
 import {
   DOCUMENT,
   NgClass,
@@ -44,12 +44,12 @@ import {
   ɵɵgetInheritedFactory,
   ɵɵinject
 } from "./chunk-53Z5AXZH.js";
-import "./chunk-MJQNUHK2.js";
 import {
   asapScheduler,
   fromEvent,
   merge
 } from "./chunk-MOY5LPCH.js";
+import "./chunk-MJQNUHK2.js";
 import {
   BehaviorSubject,
   Observable,
