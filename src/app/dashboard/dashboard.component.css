@@ -1,4 +1,104 @@
-mat-grid-tile {
-    background: inherit;
-  }
+/* mat-grid-tile {
+  background: inherit;
+} */
   
+.dashboard-title {
+  text-align: left;
+  font-size: 24px;
+  margin: 10px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+mat-grid-tile {
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+
+/* KPI */
+
+mat-card {
+  text-align: center;
+  background: #ffffff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+mat-card-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+mat-card-content {
+  font-size: 1.2em;
+  color: #555;
+}
+
+mat-card-content p {
+  margin: 5px 0;
+}
+
+mat-card-content p:first-child {
+  font-size: 1.5em;
+  color: #2196f3;
+  font-weight: bold;
+}
+
+
+/* gppppppppppppp */
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 90%;
+}
+
+.kpi-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.kpi-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #ffcc00;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.kpi-title {
+  font-size: 1.2em;
+  color: #888;
+  margin: 16px 0 8px;
+  text-align: center;
+}
+
+.kpi-value {
+  font-size: 2em;
+  color: #333;
+  margin: 0;
+  text-align: center;
+}
+
+.kpi-update {
+  font-size: 0.9em;
+  color: #bbb;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.update-icon {
+  margin-right: 4px;
+}
