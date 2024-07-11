@@ -12,6 +12,11 @@
   margin-right: 10px; /* Space between logo and title */
 }
 
+.logo2 {
+  margin-top: 20px; /* Optional: Add some top margin if needed */
+}
+
+
 .title {
   font-size: 20px; /* Adjust title font size */
   font-weight: bold; /* Make title bold */
@@ -78,7 +83,14 @@
 
 /* SIDEBAR CONTENT */
 .go-sidenav {
-  width: 300px; /* Fixed sidebar width */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center;     /* Center horizontally */
+  height: 100%;            /* Ensure the sidebar takes the full height */
+  padding: 10px;           /* Optional: Add some padding if needed */
+
+  width: 500px; /* Fixed sidebar width */
   background-color: #2c3e50; /* Dark background for sidebar */
   color: #ecf0f1; /* Light text color */
 }

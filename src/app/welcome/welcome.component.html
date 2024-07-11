@@ -11,23 +11,26 @@
   </header> 
   
 <!-- add link to each page -->
-  <div class="cards-container">
-    <div class="card">
-      <div class="icon">📊</div>
-      <h2 >Dashboard</h2>
-      <p>Get relevant information from bins data and display all KPIs through interactive and tailored dashboards, to support your decision-making processes.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🖥️</div>
-      <h2>Live Monitoring</h2>
-      <p>Roll tell me to use debit</p>
-    </div>
-    <div class="card">
-      <div class="icon">🧮</div>
-      <h2>Machine Learning</h2>
-      <p>GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOg!</p>
-    </div>
+<div class="cards-container">
+  <div [routerLink]="['/dashboard']"  routerLinkActive="active-link" class="card">  
+    <a  class="icon">📊</a>
+    <h2>Dashboard</h2>
+    <p>Get relevant information from bins data and display all KPIs through interactive and tailored dashboards, to support your decision-making processes.</p>
   </div>
+  <div [routerLink]="['/alarms']" routerLinkActive="active-link" class="card">
+    <a class="icon">🖥️</a>
+    <h2>Live Monitoring</h2>
+    <p>Roll tell me to use debit</p>
+  </div>
+  <div [routerLink]="['/machine-learning']" routerLinkActive="active-link" class="card">
+    <a  class="icon">🧮</a>
+    <h2>Machine Learning</h2>
+    <p>GOOOOOOOOg!</p>
+  </div>
+  
+</div>
+
+
 
 
   <!-- Search Bar -->
