@@ -26,6 +26,7 @@
     "@sgratzl/chartjs-chart-boxplot": "^4.4.0",
     "angular-favicon": "^1.0.9",
     "angular-plotly.js": "^5.2.2",
+    "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "plotly.js-dist-min": "^2.33.0",
     "rxjs": "~7.8.0",
