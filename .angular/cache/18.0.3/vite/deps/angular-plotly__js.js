@@ -2,7 +2,7 @@ import {
   CommonModule,
   NgClass,
   NgStyle
-} from "./chunk-3IL3ZVQH.js";
+} from "./chunk-7UVU4JCQ.js";
 import {
   Component,
   EventEmitter,
@@ -31,14 +31,14 @@ import {
   ɵɵproperty,
   ɵɵqueryRefresh,
   ɵɵviewQuery
-} from "./chunk-53Z5AXZH.js";
+} from "./chunk-3LRNGNM6.js";
 import "./chunk-MOY5LPCH.js";
 import "./chunk-MJQNUHK2.js";
 import "./chunk-SAI3DHVA.js";
 import {
   __async,
   __spreadValues
-} from "./chunk-WKYGNSYM.js";
+} from "./chunk-4YI77D66.js";
 
 // node_modules/angular-plotly.js/fesm2020/angular-plotly.js.mjs
 var _c0 = ["plot"];
