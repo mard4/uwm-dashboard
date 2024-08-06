@@ -11,7 +11,8 @@ import { ChartConfiguration } from 'chart.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as L from 'leaflet';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -26,15 +27,18 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatDialogModule,
     DialogComponent,
     MatCardModule,
-    PlotlyModule
+    PlotlyModule,
+    MatSelectModule,
+    MatFormFieldModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements AfterViewInit {
   private map!: L.Map;
-  constructor() { }
+  private icon!: L.DivIcon;
 
+  constructor() { }
 
   ngAfterViewInit(): void {
     this.Barplot();
@@ -44,22 +48,32 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   private initMap(): void {
-    this.map = L.map('map', {
-      center: [
-        -37.80253, 144.96586
-      ],
-      zoom: 13,
-      zoomControl: false,      // Disable zoom control UI
-      scrollWheelZoom: false,  // Disable zooming with scroll wheel
-      doubleClickZoom: false,  // Disable zooming with double click
-      boxZoom: false,          // Disable zooming by drawing a box
-      keyboard: false          // Disable zooming with keyboard
+    // Create a custom DivIcon with an emoji
+    this.icon = L.divIcon({
+      html: '📍',  // Use your desired emoji here
+      className: 'custom-div-icon',
+      iconSize: [60, 60],
+      iconAnchor: [12.5, 12.5]  // Center the icon
     });
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    this.map = L.map('map', {
+      center: [-37.8026719, 144.9654493],
+      zoom: 17,
+      zoomControl: true,
+      scrollWheelZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: false
+    });
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
+
+    // Add a marker with the custom DivIcon
+    const marker = L.marker([-37.80249865799543, 144.9661350929003], { icon: this.icon });
+    marker.addTo(this.map);
 
     // Use window resize event to ensure the map resizes properly after view has been initialized
     window.addEventListener('resize', () => {
@@ -201,8 +215,4 @@ export class DashboardComponent implements AfterViewInit {
 
     PlotlyJS.newPlot('myDiv', data);
   }
-
-
-
-
 }

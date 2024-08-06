@@ -106,10 +106,29 @@ mat-card-content p:first-child {
 
 
 /* mapppp */
+/* 
+#map {
+  height: 500px;
+  width: 100%; 
+} 
+*/
+
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 30px;
+}
+
+.map-frame {
+  border: 2px solid black;
+  height: 100%;
+}
 
 #map {
-  height: 500px; /* Ensure the map container has a height */
-  width: 100%;   /* Ensure the map container takes the full width */
+  height: 100%;
 }
 
 .leaflet-container {
