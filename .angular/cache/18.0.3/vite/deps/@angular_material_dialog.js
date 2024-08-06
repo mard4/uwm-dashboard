@@ -90,11 +90,11 @@ import {
   ɵɵtemplate,
   ɵɵviewQuery
 } from "./chunk-3LRNGNM6.js";
+import "./chunk-MJQNUHK2.js";
 import {
   defer,
   merge
 } from "./chunk-MOY5LPCH.js";
-import "./chunk-MJQNUHK2.js";
 import {
   Subject,
   filter,

@@ -69,13 +69,13 @@ export class AlarmsComponent {
   constructor(private dataService: DataService, public dialog: MatDialog) {} // Changed to MatDialog
 
   async ngOnInit(): Promise<void> {
-    this.dataService.getData("./data/live.json").subscribe((data) => {
+    this.dataService.getData("/alarms").subscribe((data) => {
       this.data = data;
-      console.log(this.data);
+      // console.log("data", this.data);
     });
     this.bins = await getAllBins();
     let binStatus = callBinStatus(this.bins[0].id);
-    console.log(binStatus);
+    console.log("binStatus",binStatus);
     let binDetails = callBinDetails(this.bins[0].id);
     console.log(binDetails);
   }
@@ -102,7 +102,7 @@ async function getAllBins(): Promise<Bin[]> {
   let bins: Bin[] = [];
   try {
     bins = await getBins();
-    console.log(JSON.stringify(bins));
+    console.log('bins', JSON.stringify(bins));
   } catch (error) {
     console.error("Error:", error);
   } finally {

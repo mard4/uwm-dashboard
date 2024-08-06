@@ -11,6 +11,7 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   getData(dataUrl: string): Observable<any> {
+    console.log("URL",dataUrl)
     return this.http.get<any>(dataUrl).pipe(
       catchError(this.handleError)
     );

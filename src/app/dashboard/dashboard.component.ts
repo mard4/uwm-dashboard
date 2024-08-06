@@ -10,6 +10,8 @@ import Chart from 'chart.js/auto';
 import { ChartConfiguration } from 'chart.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
+import * as L from 'leaflet';
+
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -30,11 +32,43 @@ PlotlyModule.plotlyjs = PlotlyJS;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements AfterViewInit {
+  private map!: L.Map;
+  constructor() { }
+
 
   ngAfterViewInit(): void {
     this.Barplot();
     this.regressLine('myChart2');
     this.initPlotly();
+    this.initMap();
+  }
+
+  private initMap(): void {
+    this.map = L.map('map', {
+      center: [
+        -37.80253, 144.96586
+      ],
+      zoom: 13,
+      zoomControl: false,      // Disable zoom control UI
+      scrollWheelZoom: false,  // Disable zooming with scroll wheel
+      doubleClickZoom: false,  // Disable zooming with double click
+      boxZoom: false,          // Disable zooming by drawing a box
+      keyboard: false          // Disable zooming with keyboard
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+
+    // Use window resize event to ensure the map resizes properly after view has been initialized
+    window.addEventListener('resize', () => {
+      this.map.invalidateSize();
+    });
+
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 0); // Ensures the map correctly sizes itself
   }
 
   Barplot(): void {
@@ -42,7 +76,7 @@ export class DashboardComponent implements AfterViewInit {
     const myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['Bin1', 'Bin2', 'Bin3', 'Bin4', 'Bin5', 'Bin6'],
         datasets: [{
           label: '# of Votes',
           data: [12, 19, 3, 5, 2, 3],
@@ -100,7 +134,7 @@ export class DashboardComponent implements AfterViewInit {
           backgroundColor: 'rgba(75, 192, 192, 30)',
           showLine: false 
         }, {
-          label: 'Regression Line',
+          label: 'Temperature Line',
           data: regressionLine.map((y, index) => ({ x: index, y: y })),
           borderColor: 'rgba(255, 99, 132, 10)',
           fill: false,
@@ -167,4 +201,8 @@ export class DashboardComponent implements AfterViewInit {
 
     PlotlyJS.newPlot('myDiv', data);
   }
+
+
+
+
 }
