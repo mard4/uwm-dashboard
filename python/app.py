@@ -99,6 +99,7 @@ live_turno_corrente = df_bins.groupby('dev_id').agg({
     'temperature': 'last',
     'datetime': 'last',
     'battery':'last'}).reset_index()
+    
 def create_dict_from_dataframe(df, column_name):
     """Create a Dict frm a dataframe grouped by Macchina column name"""
     result_dict = dict()
