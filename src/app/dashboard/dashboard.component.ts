@@ -5,12 +5,14 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
 import Chart from 'chart.js/auto';
 import { ChartConfiguration } from 'chart.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as L from 'leaflet';
+import { DataService } from "../data.service";
+import { DetailedBin, getBinDetails, getBins, getBinStatus, getWeather} from "../../api";
+import { Bin, Weather } from "../../api";
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -25,7 +27,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatGridListModule,
     MatTableModule,
     MatDialogModule,
-    DialogComponent,
+    // DialogComponent,
     MatCardModule,
     PlotlyModule,
     MatSelectModule,
@@ -37,23 +39,79 @@ PlotlyModule.plotlyjs = PlotlyJS;
 export class DashboardComponent implements AfterViewInit {
   private map!: L.Map;
   private icon!: L.DivIcon;
+  bins: Bin[] = [];
+  weather: any = [];
+  data: any = [];
+  averageTemperature: number = 0;
+  averageFillLevel: number = 0;
+  averageAirTemp: number = 0;
+  lastPrecipitation: number = 0;
 
-  constructor() { }
+  constructor(private dataService: DataService) {}
+
+  async ngOnInit(): Promise<void> {
+    this.dataService.getData("/alarms").subscribe((data) => {
+      this.data = data;
+    });
+    this.bins = await this.getAllBins();
+    this.calculateAverageTemperature();
+    this.calculateAverageFillLevel();
+    let binStatus = await this.callBinStatus(this.bins[0].id);
+    console.log("binStatus", binStatus);
+    let binDetails = await this.callBinDetails(this.bins[0].id);
+    console.log(binDetails);
+    this.Barplot(); 
+
+    // Weather data
+    //this.weather = await this.getWeather();
+  }
+
+  getObjectKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
+
+  private async getAllBins(): Promise<Bin[]> {
+    let bins: Bin[] = [];
+    try {
+      bins = await getBins();
+      console.log('bins DASHBOARD COMP', JSON.stringify(bins));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    return bins;
+  }
+
+  private async callBinStatus(id: string): Promise<Bin | undefined> {
+    let binStatus: Bin | undefined = undefined;
+    try {
+      binStatus = await getBinStatus(id);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    return binStatus;
+  }
+
+  private async callBinDetails(id: string): Promise<DetailedBin | undefined> {
+    let binDetails: DetailedBin | undefined = undefined;
+    try {
+      binDetails = await getBinDetails(id);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    return binDetails;
+  }
 
   ngAfterViewInit(): void {
-    this.Barplot();
-    this.regressLine('myChart2');
     this.initPlotly();
     this.initMap();
   }
 
   private initMap(): void {
-    // Create a custom DivIcon with an emoji
     this.icon = L.divIcon({
-      html: '📍',  // Use your desired emoji here
+      html: '📍',
       className: 'custom-div-icon',
       iconSize: [60, 60],
-      iconAnchor: [12.5, 12.5]  // Center the icon
+      iconAnchor: [12.5, 12.5]
     });
 
     this.map = L.map('map', {
@@ -71,18 +129,30 @@ export class DashboardComponent implements AfterViewInit {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
 
-    // Add a marker with the custom DivIcon
     const marker = L.marker([-37.80249865799543, 144.9661350929003], { icon: this.icon });
     marker.addTo(this.map);
 
-    // Use window resize event to ensure the map resizes properly after view has been initialized
     window.addEventListener('resize', () => {
       this.map.invalidateSize();
     });
 
     setTimeout(() => {
       this.map.invalidateSize();
-    }, 0); // Ensures the map correctly sizes itself
+    }, 0);
+  }
+
+  ////////// CHARTS and KPIS //////////
+  
+  private calculateAverageTemperature(): void {
+    const totalTemperature = this.bins.reduce((sum, bin) => sum + Number(bin.temperature), 0);
+    this.averageTemperature = totalTemperature / this.bins.length;
+    console.log("Average Temperature:", this.averageTemperature);
+  }
+  
+  private calculateAverageFillLevel(): void {
+    const totalFill = this.bins.reduce((sum, bin) => sum + Number(bin.fillLevel), 0);
+    this.averageFillLevel = totalFill / this.bins.length;
+    console.log("Average fillLevel:", this.averageFillLevel);
   }
 
   Barplot(): void {
@@ -90,26 +160,12 @@ export class DashboardComponent implements AfterViewInit {
     const myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Bin1', 'Bin2', 'Bin3', 'Bin4', 'Bin5', 'Bin6'],
+        labels: this.bins.map(bin => bin.id),
         datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
+          label: 'Fill Level',
+          data: this.bins.map(bin => Number(bin.fillLevel)),
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
         }]
       },
@@ -122,89 +178,8 @@ export class DashboardComponent implements AfterViewInit {
       }
     });
   }
-
-  regressLine(canvasId: string): void {
-    const ctx = document.getElementById(canvasId) as HTMLCanvasElement;
-
-    const data = [
-      { x: 0, y: 0 },
-      { x: 1, y: 2 },
-      { x: 2, y: 4 },
-      { x: 3, y: 10 },
-      { x: 4, y: 8 },
-      { x: 5, y: 18 },
-      { x: 6, y: 12 },
-      { x: 7, y: 14 }
-    ];
-    const regressionLine = [0, 2, 4, 6, 8, 10, 12, 14];
-
-    const config: ChartConfiguration<'scatter'> = {
-      type: 'scatter',
-      data: {
-        datasets: [{
-          label: 'Data',
-          data: data,
-          borderColor: 'rgba(54, 12, 235, 20)',
-          backgroundColor: 'rgba(75, 192, 192, 30)',
-          showLine: false 
-        }, {
-          label: 'Temperature Line',
-          data: regressionLine.map((y, index) => ({ x: index, y: y })),
-          borderColor: 'rgba(255, 99, 132, 10)',
-          fill: false,
-          showLine: true
-        }]
-      },
-      options: {
-        scales: {
-          x: {
-            title: {
-              display: true,
-              color: 'white',
-              font: {
-                size: 16
-              },
-              text: 'X Axis Label'
-            },
-            ticks: {
-              font: {
-                size: 18
-              }
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              color: 'white',
-              font: {
-                size: 16
-              },
-              text: 'Y Axis Label'
-            },
-            ticks: {
-              font: {
-                size: 18
-              }
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: 'red',
-              font: {
-                size: 16
-              }
-            }
-          }
-        }
-      }
-    };
-
-    new Chart(ctx, config);
-  }
-
-  initPlotly(): void {
+  
+  private initPlotly(): void {
     const data: Partial<Plotly.Data>[] = [
       {
         x: ['giraffes', 'orangutans', 'monkeys'],

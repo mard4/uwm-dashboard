@@ -8,7 +8,7 @@
     <mat-card>
       <mat-card-title>📈 Avg Temp</mat-card-title>
       <mat-card-content>
-        <p>Value: 0.5</p>
+        <p>Value: {{averageTemperature.toFixed(1)}}</p>
         <p>📊 Average temperature inside bins</p>
       </mat-card-content>
     </mat-card>
@@ -17,7 +17,7 @@
     <mat-card>
       <mat-card-title>📉 Avg Fill Level</mat-card-title>
       <mat-card-content>
-        <p>Value: 70</p>
+        <p>Value: {{averageFillLevel.toFixed(1)}}</p>
         <p>💡 Average fill level</p>
       </mat-card-content>
     </mat-card>
@@ -26,7 +26,7 @@
     <mat-card>
       <mat-card-title>💼 Avg Air Temp</mat-card-title>
       <mat-card-content>
-        <p>Value: 0.5</p>
+        <p>Value: {{averageAirTemp.toFixed(1)}}</p>
         <p>🚀 Average outisde air temperature</p>
       </mat-card-content>
     </mat-card>
@@ -38,7 +38,7 @@
       </div>
       <mat-card-content>
         <p class="kpi-title">Last reported precipitation</p>
-        <p class="kpi-value">0</p>
+        <p class="kpi-value">{{lastPrecipitation.toFixed(1)}}</p>
         <p class="kpi-update"><span class="update-icon">⏰</span> just update</p>
       </mat-card-content>
     </mat-card>

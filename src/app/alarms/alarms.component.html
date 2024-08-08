@@ -2,10 +2,15 @@
   <div class="content">
     <div class="tab-group">
       <div class="col-md-12">
-        <h2 style="color: #333; text-align: center">LIVE MONITORING</h2>
-        <p style="color: #ffd700; text-align: center; padding-bottom: 1%">
-          Click on a bin name to get details
+        <h2 class="title" style="color: #333; text-align: center">LIVE MONITORING</h2>
+        <p class="info">
+          <b>Info about the bins in the system.</b> <br>
+          <i>Click on a bin name to get details </i><br>
+          🟥 fill level is above 80<br>
+          🟧 fill level is between 70 and 80<br>
+          🟩 fill level is under 70
         </p>
+
 
         <div class="card-container">
           <div *ngFor="let bin of bins" class="card-wrapper">
@@ -25,7 +30,7 @@
                   <font color="white" size="5">
                     <strong>
                       <a
-                        style="color: #ffd700; font-size: 5; cursor: pointer"
+                        style="color: #000000; font-size: 6; cursor: pointer"
                         (click)="openDialog(bin)"
                         >{{ bin.id }}</a
                       >
