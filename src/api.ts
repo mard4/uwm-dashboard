@@ -17,6 +17,15 @@ export interface Bin {
   fillLevel: number;
 }
 
+export interface Weather {
+  temperature: number;
+  humidity: number;
+  precipitation: number;
+  wind: number;
+  pressure: number;
+  timestamp: string;
+}
+
 export interface DetailedBin extends Bin {
   sensorName: string;
   latitude: number;
@@ -53,6 +62,17 @@ export const getBinDetails = async (id: string): Promise<DetailedBin> => {
     return response.data;
   } catch (error) {
     console.error("Error fetching bin details:", error);
+    throw error;
+  }
+};
+
+/// weather
+export const getWeather = async (): Promise<any> => {
+  try {
+    const response: AxiosResponse<any> = await apiClient.get(`/weather`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
     throw error;
   }
 };

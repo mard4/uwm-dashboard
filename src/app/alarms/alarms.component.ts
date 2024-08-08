@@ -33,31 +33,7 @@ import { Bin } from "../../api";
 export class AlarmsComponent {
   bins: Bin[] = [];
   data: any = [];
-  data2 = [
-    {
-      dev_id: "1",
-      time: "2022-06-10 10:00",
-      temperature: 25,
-      distance: 10,
-      filllevel: 50,
-      battery: 80,
-      latitude: 40.7128,
-      longitude: -74.006,
-      sensor_name: "Sensor A",
-    },
-    {
-      dev_id: "2",
-      time: "2022-06-10 10:15",
-      temperature: 22,
-      distance: 12,
-      filllevel: 70,
-      battery: 60,
-      latitude: 34.0522,
-      longitude: -118.2437,
-      sensor_name: "Sensor B",
-    },
-    // Add more data as needed
-  ];
+ 
   columnsToDisplay: string[] = [
     "id",
     "lastEdit",

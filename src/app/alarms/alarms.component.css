@@ -92,3 +92,40 @@
   }
 }
 
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+.title {
+  color: #333;
+  text-align: center;
+  font-size: 36px;
+  margin-top: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.subtitle {
+  color: #ffd700;
+  text-align: center;
+  padding-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.info {
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  text-align: left;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.info p {
+  margin: 0;
+}
