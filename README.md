@@ -11,4 +11,5 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Prerequisites
 The backend of this dashboard is in another repository "uwm". If the backend is not running, no data will be displayed in the dashboard and alarms component as data is got from APIs. 
 
+## Demo 
 ![HOmepage GIF](https://github.com/mard4/uwm-dashboard/blob/547d78075ec355e4bf7c5e86a2918232b4534360/readme/homepage.gif)
