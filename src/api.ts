@@ -21,21 +21,28 @@ export interface Weather {
   dev_id: string;
   time: string;
   rtc: string;
-  battery: string;
+  battery: number;
   solarpanel: string;
   command	: string;
-  solar	: string;
-  precipitation	: string;
-  strikes	: string;
-  windspeed	: string;
-  winddirection	: string;
-  gustspeed	: string;
-  vapourpressure	: string;
-  atmosphericpressure	: string;
-  relativehumidity	: string;
-  airtemp	: string;
+  solar	: number;
+  precipitation	: number;
+  strikes	: number;
+  windspeed	: number;
+  winddirection	: number;
+  gustspeed	: number;
+  vapourpressure	: number;
+  atmosphericpressure	: number;
+  relativehumidity	: number;
+  airTemp	: number;
   lat_long	: string;
   sensor_name: string;
+}
+
+export interface Pedestrian {
+  lastEdit: string;
+  region:	string;
+  numVisitors: number	
+  dev_id: string;
 }
 
 
@@ -86,6 +93,17 @@ export const getWeather = async (): Promise<Weather[]> => {
     return response.data;
   } catch (error) {
     console.error("Error fetching weather:", error);
+    throw error;
+  }
+};
+
+/// Pedestrian
+export const getPedestrian = async (): Promise<Pedestrian[]> => {
+  try {
+    const response: AxiosResponse<Pedestrian[]> = await apiClient.get("/pedestrians");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Pedestrian:", error);
     throw error;
   }
 };
