@@ -40,7 +40,7 @@ export class DashboardComponent implements AfterViewInit {
   private map!: L.Map;
   private icon!: L.DivIcon;
   bins: Bin[] = [];
-  weather: any = [];
+  weather: Weather[] = [];
   data: any = [];
   averageTemperature: number = 0;
   averageFillLevel: number = 0;
@@ -63,7 +63,11 @@ export class DashboardComponent implements AfterViewInit {
     this.Barplot(); 
 
     // Weather data
-    //this.weather = await this.getWeather();
+    // this.dataService.getData("/weather").subscribe((data) => {
+    //   this.data=data;
+    // });
+    this.weather = await this.getAllWeather();
+    console.log("Weather", this.weather);
   }
 
   getObjectKeys(obj: any): string[] {
@@ -79,6 +83,17 @@ export class DashboardComponent implements AfterViewInit {
       console.error("Error:", error);
     }
     return bins;
+  }
+
+  private async getAllWeather(): Promise<Weather[]> {
+    let weather: Weather[] = [];
+    try {
+      weather = await getWeather();
+      console.log('weather DASHBOARD COMP', JSON.stringify(weather));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    return weather;
   }
 
   private async callBinStatus(id: string): Promise<Bin | undefined> {
