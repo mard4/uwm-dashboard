@@ -11,8 +11,8 @@ import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as L from 'leaflet';
 import { DataService } from "../data.service";
-import { DetailedBin, getBinDetails, getBins, getBinStatus, getWeather} from "../../api";
-import { Bin, Weather } from "../../api";
+import { DetailedBin, getBinDetails, getBins, getBinStatus, getWeather, getPedestrian} from "../../api";
+import { Bin, Weather, Pedestrian} from "../../api";
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -39,9 +39,13 @@ PlotlyModule.plotlyjs = PlotlyJS;
 export class DashboardComponent implements AfterViewInit {
   private map!: L.Map;
   private icon!: L.DivIcon;
+
   bins: Bin[] = [];
   weather: Weather[] = [];
+  pedestrian: Pedestrian[] = [];
   data: any = [];
+  chart: any = [];
+
   averageTemperature: number = 0;
   averageFillLevel: number = 0;
   averageAirTemp: number = 0;
@@ -54,20 +58,21 @@ export class DashboardComponent implements AfterViewInit {
       this.data = data;
     });
     this.bins = await this.getAllBins();
-    this.calculateAverageTemperature();
-    this.calculateAverageFillLevel();
+    this.weather = await this.getAllWeather();
+    console.log("Weather", this.weather);
+    this.pedestrian = await this.getAllPedestrian();
+    console.log("Pedestrian", this.pedestrian);
     let binStatus = await this.callBinStatus(this.bins[0].id);
     console.log("binStatus", binStatus);
     let binDetails = await this.callBinDetails(this.bins[0].id);
     console.log(binDetails);
+    this.calculateAverageTemperature();
+    this.calculateAverageFillLevel();
+    this.calculateAverageAirTemp();
+    this.getLastPrecipitation();
     this.Barplot(); 
+    this.LineChart();
 
-    // Weather data
-    // this.dataService.getData("/weather").subscribe((data) => {
-    //   this.data=data;
-    // });
-    this.weather = await this.getAllWeather();
-    console.log("Weather", this.weather);
   }
 
   getObjectKeys(obj: any): string[] {
@@ -94,6 +99,17 @@ export class DashboardComponent implements AfterViewInit {
       console.error("Error:", error);
     }
     return weather;
+  }
+
+  private async getAllPedestrian(): Promise<Pedestrian[]> {
+    let pedestrian: Pedestrian[] = [];
+    try {
+      pedestrian = await getPedestrian();
+      console.log('pedestrian DASHBOARD COMP', JSON.stringify(pedestrian));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    return pedestrian;
   }
 
   private async callBinStatus(id: string): Promise<Bin | undefined> {
@@ -170,6 +186,20 @@ export class DashboardComponent implements AfterViewInit {
     console.log("Average fillLevel:", this.averageFillLevel);
   }
 
+  private calculateAverageAirTemp(): void {
+    const totalTemperature = this.weather.reduce((sum, bin) => sum + Number(bin.airTemp), 0);
+    this.averageAirTemp = totalTemperature / this.weather.length;
+    console.log("Average Temperature:", this.averageAirTemp);
+  }
+
+  private getLastPrecipitation(): void {
+    const lastPrecipitation = this.weather[this.weather.length - 1];
+    this.lastPrecipitation = lastPrecipitation.precipitation;
+    console.log("Last Precipitation:", this.lastPrecipitation);
+  }
+  
+  
+
   Barplot(): void {
     const ctx = document.getElementById('myChart') as HTMLCanvasElement;
     const myChart = new Chart(ctx, {
@@ -194,6 +224,45 @@ export class DashboardComponent implements AfterViewInit {
     });
   }
   
+
+  private LineChart(): void {
+    // const ctx = document.getElementById('myChart2') as HTMLCanvasElement;
+    const times = this.pedestrian.map(record => new Date(record.lastEdit).toLocaleTimeString());    
+    const numVisitors = this.pedestrian.map(record => Number(record.numVisitors));
+
+    this.chart = new Chart('canvas', {
+      type: 'line',
+      data: {
+        labels: times,
+        datasets: [
+          {
+            label: 'Number of Visitors',
+            data: numVisitors,
+            fill: false,
+            borderColor: 'blue',
+            tension: 0.1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Time'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Number of Visitors'
+            }
+          }
+        }
+      }
+    });
+  }
+
   private initPlotly(): void {
     const data: Partial<Plotly.Data>[] = [
       {
