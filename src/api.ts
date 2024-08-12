@@ -15,6 +15,8 @@ export interface Bin {
   temperature: string;
   battery: number;
   fillLevel: number;
+  // longitude: number;
+  // latitude: number;
 }
 
 export interface Weather {
@@ -50,6 +52,12 @@ export interface DetailedBin extends Bin {
   sensorName: string;
   latitude: number;
   longitude: number;
+}
+
+export interface Predictions {
+}
+
+export interface OptPath {
 }
 
 export const getBins = async (): Promise<Bin[]> => {
@@ -104,6 +112,27 @@ export const getPedestrian = async (): Promise<Pedestrian[]> => {
     return response.data;
   } catch (error) {
     console.error("Error fetching Pedestrian:", error);
+    throw error;
+  }
+};
+
+// Predictions 
+export const getPredictions = async (): Promise<Predictions[]> => {
+  try {
+    const response: AxiosResponse<Predictions[]> = await apiClient.get("/predictions");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Predictions:", error);
+    throw error;
+  }
+};
+
+export const getOptimalPath = async (): Promise<OptPath[]> => {
+  try {
+    const response: AxiosResponse<OptPath[]> = await apiClient.get("/optimalpath");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching Predictions:", error);
     throw error;
   }
 };

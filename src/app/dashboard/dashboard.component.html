@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <!-- <h1 class="dashboard-title">Dashboard</h1> -->
 
-<mat-grid-list cols="4" rowHeight="2:1" gutterSize="10px">
+<mat-grid-list cols="4" rowHeight="2:1" gutterSize="60px">
   <!-- First Row -->
   <mat-grid-tile>
     <mat-card>
@@ -34,14 +34,24 @@
   <mat-grid-tile>
     <mat-card class="kpi-card">
       <div class="kpi-header">
-        <img src="https://img.freepik.com/free-psd/weather-icon-isolated_23-2151178577.jpg?t=st=1722947348~exp=1722950948~hmac=41682598f001e9cfd5a7c9add06281764aacc008bfdd3e67f3ec58616e0bdbcd&w=900" alt="Twitter" class="kpi-icon">
+        <span class="kpi-icon">
+          @if (lastPrecipitation < 1) {
+            <img src="/img/sun.png" alt="Sun Icon" width="60px" height="60px">
+
+
+          } @else if (lastPrecipitation > 1) {
+            <img src="/img/rain.png" alt="Rain Icon" width="60px" height="60px">
+
+          }
+        </span>
       </div>
       <mat-card-content>
         <p class="kpi-title">Last reported precipitation</p>
         <p class="kpi-value">{{lastPrecipitation}}</p>
-        <p class="kpi-update"><span class="update-icon">⏰</span> just update</p>
+        <p class="kpi-update"><span class="update-icon">⏰</span> just updated</p>
       </mat-card-content>
     </mat-card>
+    
   </mat-grid-tile>
 </mat-grid-list>
 
@@ -50,15 +60,17 @@
 <mat-grid-list cols="4" rowHeight="1:1">
   <!-- First Row -->
   <mat-grid-tile colspan="2">
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="myChart" width="700" height="700"></canvas>
   </mat-grid-tile>
   
   <mat-grid-tile colspan="2">
-    <canvas id="canvas" width="400" height="400"></canvas>
+    <canvas id="canvas" width="700" height="700"></canvas>
     <!-- <canvas id="myChart2" width="400" height="400"></canvas> -->
   </mat-grid-tile>
   
   <!-- Second Row -->
+   <br>
+   <br>
   <mat-grid-tile colspan="4">
     <div class="map-container">
       <div class="map-frame">
@@ -69,66 +81,30 @@
   
   <!-- Third Row -->
   <mat-grid-tile colspan="2">
-    <div id="myDiv"></div>
-    
+    <!-- <div id="myDiv"></div> -->
+    optimal path
     <!-- <canvas id="myChart3" width="400" height="400"></canvas> -->
   </mat-grid-tile>
   
   <mat-grid-tile colspan="2">
-
+    optimal path
   </mat-grid-tile>
 </mat-grid-list>
+<!--  -->
+
+<br>
+<mat-form-field appearance="fill">
+  <mat-label>Select Field</mat-label>
+  <mat-select [(value)]="selectedField" (selectionChange)="updatePlot()">
+    <mat-option *ngFor="let field of fields" [value]="field">
+      {{ field }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
 
-<h1 class="dashboard-title">Other plots</h1>
-fdisjfsidjfidsjiof
+<!-- @if (selectedField) {
+  <p>Value: {{ selectedFieldValue }}</p>
+} -->
 
-
-<mat-grid-list cols="4" rowHeight="2:1" gutterSize="10px">
-  <!-- First Row -->
-  <mat-grid-tile colspan="1" rowspan="1">
-    <div id="myDiv">
-      <mat-form-field appearance="fill">
-        <mat-label>Options</mat-label>
-        <mat-select>
-          <mat-option value="option1">Option 1</mat-option>
-          <mat-option value="option2">Option 2</mat-option>
-          <mat-option value="option3">Option 3</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" rowspan="1">
-    <div>Content for tile 2</div>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" rowspan="1">
-    <div>Content for tile 3</div>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" rowspan="1">
-    <div>Content for tile 4</div>
-  </mat-grid-tile>
-  
-  <!-- Second Row -->
-  <mat-grid-tile colspan="2" rowspan="2">
-    <canvas id="myChart" width="400" height="400"></canvas>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="2" rowspan="1">
-    <div>Content for tile 6</div>
-  </mat-grid-tile>
-  
-  <!-- Third Row -->
-  <mat-grid-tile colspan="1" rowspan="1">
-    <div>Content for tile 7</div>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" rowspan="1">
-    <div>Content for tile 8</div>
-  </mat-grid-tile>
-  
-  <!-- Fourth Row -->
-  <mat-grid-tile colspan="4" rowspan="2">
-    <canvas id="myChart2" width="400" height="400"></canvas>
-  </mat-grid-tile>
-</mat-grid-list>
-
-
-
+<div id="myDiv"></div>
