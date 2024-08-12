@@ -73,7 +73,7 @@ mat-card-content p:first-child {
 .kpi-icon {
   width: 40px;
   height: 40px;
-  background-color: #ffcc00;
+  /* background-color: #ffcc00; */
   padding: 8px;
   border-radius: 50%;
 }
@@ -171,3 +171,5 @@ mat-card-content p:first-child {
 .leaflet-container {
   overflow: hidden;
 }
+
+/* field */

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit,inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -11,10 +11,11 @@ import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as L from 'leaflet';
 import { DataService } from "../data.service";
-import { DetailedBin, getBinDetails, getBins, getBinStatus, getWeather, getPedestrian} from "../../api";
-import { Bin, Weather, Pedestrian} from "../../api";
+import { DetailedBin, getBinDetails, getBins, getBinStatus, getWeather, getPedestrian, getOptimalPath} from "../../api";
+import { Bin, Weather, Pedestrian, OptPath} from "../../api";
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -22,12 +23,12 @@ PlotlyModule.plotlyjs = PlotlyJS;
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    CommonModule,
     MatToolbarModule,
     FlexLayoutModule,
     MatGridListModule,
     MatTableModule,
     MatDialogModule,
-    // DialogComponent,
     MatCardModule,
     PlotlyModule,
     MatSelectModule,
@@ -43,6 +44,7 @@ export class DashboardComponent implements AfterViewInit {
   bins: Bin[] = [];
   weather: Weather[] = [];
   pedestrian: Pedestrian[] = [];
+  optpath: any = [];
   data: any = [];
   chart: any = [];
 
@@ -51,17 +53,28 @@ export class DashboardComponent implements AfterViewInit {
   averageAirTemp: number = 0;
   lastPrecipitation: number = 0;
 
+  fields: string[] = [];
+  selectedField: string = 'temperature';  // Default selected field
+
   constructor(private dataService: DataService) {}
 
   async ngOnInit(): Promise<void> {
     this.dataService.getData("/alarms").subscribe((data) => {
       this.data = data;
+     
     });
+
     this.bins = await this.getAllBins();
+    this.fields = this.getObjectKeys(this.bins[0]); 
+    console.log("Fields", this.fields);
+    this.selectedField = this.fields[0];  // Default to the first field
+
     this.weather = await this.getAllWeather();
-    console.log("Weather", this.weather);
+    //console.log("Weather", this.weather);
     this.pedestrian = await this.getAllPedestrian();
-    console.log("Pedestrian", this.pedestrian);
+    //console.log("Pedestrian", this.pedestrian);
+    //this.optpath = await this.getOptPath();
+    //console.log("OptPath", this.optpath);
     let binStatus = await this.callBinStatus(this.bins[0].id);
     console.log("binStatus", binStatus);
     let binDetails = await this.callBinDetails(this.bins[0].id);
@@ -72,6 +85,10 @@ export class DashboardComponent implements AfterViewInit {
     this.getLastPrecipitation();
     this.Barplot(); 
     this.LineChart();
+    this.initMap();
+
+    //this.initPlotly();
+    this.updatePlot();
 
   }
 
@@ -79,11 +96,16 @@ export class DashboardComponent implements AfterViewInit {
     return Object.keys(obj);
   }
 
+  // to get the value of the selected field
+  get selectedFieldValue(): string {
+    return this.selectedField;
+  }
+
   private async getAllBins(): Promise<Bin[]> {
     let bins: Bin[] = [];
     try {
       bins = await getBins();
-      console.log('bins DASHBOARD COMP', JSON.stringify(bins));
+      console.log('Got bins data dashboard comp.', JSON.stringify(bins));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -94,7 +116,7 @@ export class DashboardComponent implements AfterViewInit {
     let weather: Weather[] = [];
     try {
       weather = await getWeather();
-      console.log('weather DASHBOARD COMP', JSON.stringify(weather));
+      console.log('Got Weather data dashboard comp.', JSON.stringify(weather));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -105,11 +127,22 @@ export class DashboardComponent implements AfterViewInit {
     let pedestrian: Pedestrian[] = [];
     try {
       pedestrian = await getPedestrian();
-      console.log('pedestrian DASHBOARD COMP', JSON.stringify(pedestrian));
+      console.log('Got pedestrian data dashboard comp.', JSON.stringify(pedestrian));
     } catch (error) {
       console.error("Error:", error);
     }
     return pedestrian;
+  }
+
+  private async getOptPath(): Promise<any> {
+    let optpath: any = [];
+    try {
+      optpath = await getOptimalPath();
+      console.log('optpath DASHBOARD COMP', JSON.stringify(optpath));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    return optpath;
   }
 
   private async callBinStatus(id: string): Promise<Bin | undefined> {
@@ -132,9 +165,10 @@ export class DashboardComponent implements AfterViewInit {
     return binDetails;
   }
 
+  // MAP //
   ngAfterViewInit(): void {
-    this.initPlotly();
-    this.initMap();
+    // this.initPlotly();
+    // this.initMap();
   }
 
   private initMap(): void {
@@ -266,12 +300,43 @@ export class DashboardComponent implements AfterViewInit {
   private initPlotly(): void {
     const data: Partial<Plotly.Data>[] = [
       {
-        x: ['giraffes', 'orangutans', 'monkeys'],
-        y: [20, 14, 23],
+        x: this.bins.map(bin => bin.id),
+        y: this.bins.map(bin => Number(bin[this.selectedField as keyof Bin])),
         type: 'bar'
       }
     ];
 
+    const layout: Partial<Plotly.Layout> = {
+      title: {
+        text: 'Temperature in Bins',
+        font: {
+          size: 24  // Increase the font size
+        }
+      }
+    };
+
     PlotlyJS.newPlot('myDiv', data);
   }
+
+  updatePlot(): void {
+    const data: Partial<Plotly.Data>[] = [
+      {
+        x: this.bins.map(bin => bin.id),
+        y: this.bins.map(bin => Number(bin[this.selectedField as keyof Bin])),
+        type: 'bar'
+      }
+    ];
+  
+    const layout: Partial<Plotly.Layout> = {
+      title: {
+        text: `Plot for ${this.selectedField}`,
+        font: {
+          size: 24
+        }
+      }
+    };
+  
+    PlotlyJS.react('myDiv', data, layout);
+  }
+  
 }
