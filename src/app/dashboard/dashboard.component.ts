@@ -45,6 +45,7 @@ export class DashboardComponent implements AfterViewInit {
   weather: Weather[] = [];
   pedestrian: Pedestrian[] = [];
   optpath: any = [];
+  bins_details: DetailedBin[] = [];
   data: any = [];
   chart: any = [];
 
@@ -66,15 +67,20 @@ export class DashboardComponent implements AfterViewInit {
 
     this.bins = await this.getAllBins();
     this.fields = this.getObjectKeys(this.bins[0]); 
-    console.log("Fields", this.fields);
+
+    const detailedPromises = this.bins.map(bin => this.callBinDetails(bin.id));
+    const detailsWithUndefined = await Promise.all(detailedPromises);
+    this.bins_details = detailsWithUndefined.filter((detail): detail is DetailedBin => detail !== undefined);
+    console.log("Bins Details", this.bins_details);
+    //console.log("Fields", this.fields);
     this.selectedField = this.fields[0];  // Default to the first field
 
     this.weather = await this.getAllWeather();
     //console.log("Weather", this.weather);
     this.pedestrian = await this.getAllPedestrian();
     //console.log("Pedestrian", this.pedestrian);
-    //this.optpath = await this.getOptPath();
-    //console.log("OptPath", this.optpath);
+    this.optpath = await this.getOptPath();
+    console.log("OptPath", this.optpath);
     let binStatus = await this.callBinStatus(this.bins[0].id);
     console.log("binStatus", binStatus);
     let binDetails = await this.callBinDetails(this.bins[0].id);
@@ -175,10 +181,10 @@ export class DashboardComponent implements AfterViewInit {
     this.icon = L.divIcon({
       html: '📍',
       className: 'custom-div-icon',
-      iconSize: [60, 60],
+      iconSize: [100, 100],
       iconAnchor: [12.5, 12.5]
     });
-
+  
     this.map = L.map('map', {
       center: [-37.8026719, 144.9654493],
       zoom: 17,
@@ -188,24 +194,29 @@ export class DashboardComponent implements AfterViewInit {
       boxZoom: true,
       keyboard: false
     });
-
+  
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(this.map);
-
-    const marker = L.marker([-37.80249865799543, 144.9661350929003], { icon: this.icon });
-    marker.addTo(this.map);
-
+  
+    // Loop through the bins_details array and add a marker for each bin
+    this.bins_details.forEach(bin => {
+      if (bin.latitude && bin.longitude) {
+        const marker = L.marker([parseFloat(bin.latitude), parseFloat(bin.longitude)], { icon: this.icon });
+        marker.addTo(this.map);
+      }
+    });
+  
     window.addEventListener('resize', () => {
       this.map.invalidateSize();
     });
-
+  
     setTimeout(() => {
       this.map.invalidateSize();
     }, 0);
   }
-
+  
   ////////// CHARTS and KPIS //////////
   
   private calculateAverageTemperature(): void {
