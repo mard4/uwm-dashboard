@@ -7,11 +7,19 @@ import {
   MatDialogConfig,
 } from "@angular/material/dialog"; // Correcting the import here
 import { DialogComponent } from "../dialog/dialog.component";
+import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableModule } from "@angular/material/table";
 import { DataService } from "../data.service";
-import { DetailedBin, getBinDetails, getBins, getBinStatus } from "../../api";
+import {
+  DetailedBin,
+  getBinDetails,
+  getBins,
+  getBinStatus,
+  exportBinInCsv,
+  exportBinsInCsv,
+} from "../../api";
 import { Bin } from "../../api";
 
 @Component({
@@ -25,6 +33,7 @@ import { Bin } from "../../api";
     MatTabsModule,
     MatTableModule,
     DialogComponent,
+    MatIconModule,
   ],
   providers: [DataService],
   templateUrl: "./alarms.component.html",
@@ -33,7 +42,7 @@ import { Bin } from "../../api";
 export class AlarmsComponent {
   bins: Bin[] = [];
   data: any = [];
- 
+
   columnsToDisplay: string[] = [
     "id",
     "lastEdit",
@@ -51,13 +60,28 @@ export class AlarmsComponent {
     });
     this.bins = await getAllBins();
     let binStatus = callBinStatus(this.bins[0].id);
-    console.log("binStatus",binStatus);
     let binDetails = callBinDetails(this.bins[0].id);
-    console.log(binDetails);
+    // exportBin(this.bins[0].id);
   }
 
   getObjectKeys(obj: any): string[] {
     return Object.keys(obj);
+  }
+
+  async exportBin(id: string): Promise<void> {
+    try {
+      await exportBinInCsv(id);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  async exportBins(): Promise<void> {
+    try {
+      await exportBinsInCsv();
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
   openDialog(item: any) {
@@ -78,7 +102,7 @@ async function getAllBins(): Promise<Bin[]> {
   let bins: Bin[] = [];
   try {
     bins = await getBins();
-    console.log('bins', JSON.stringify(bins));
+    console.log("bins", JSON.stringify(bins));
   } catch (error) {
     console.error("Error:", error);
   } finally {
