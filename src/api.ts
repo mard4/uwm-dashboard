@@ -134,9 +134,7 @@ export const getPredictions = async (): Promise<Predictions[]> => {
 
 export const getOptimalPath = async (): Promise<string[]> => {
   try {
-    const response: AxiosResponse<string[]> = await apiClient.get(
-      "/optimal_path"
-    );
+    const response: AxiosResponse<OptPath[]> = await apiClient.get("/bins/optimal-path");
     return response.data;
   } catch (error) {
     console.error("Error fetching Predictions:", error);
