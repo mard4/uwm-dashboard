@@ -25,28 +25,27 @@ export interface Weather {
   rtc: string;
   battery: number;
   solarpanel: string;
-  command	: string;
-  solar	: number;
-  precipitation	: number;
-  strikes	: number;
-  windspeed	: number;
-  winddirection	: number;
-  gustspeed	: number;
-  vapourpressure	: number;
-  atmosphericpressure	: number;
-  relativehumidity	: number;
-  airTemp	: number;
-  lat_long	: string;
+  command: string;
+  solar: number;
+  precipitation: number;
+  strikes: number;
+  windspeed: number;
+  winddirection: number;
+  gustspeed: number;
+  vapourpressure: number;
+  atmosphericpressure: number;
+  relativehumidity: number;
+  airTemp: number;
+  lat_long: string;
   sensor_name: string;
 }
 
 export interface Pedestrian {
   lastEdit: string;
-  region:	string;
-  numVisitors: number	
+  region: string;
+  numVisitors: number;
   dev_id: string;
 }
-
 
 export interface DetailedBin extends Bin {
   sensorName: string;
@@ -54,8 +53,7 @@ export interface DetailedBin extends Bin {
   longitude: string;
 }
 
-export interface Predictions {
-}
+export interface Predictions {}
 
 export interface OptPath {
   dev_id: string;
@@ -111,7 +109,9 @@ export const getWeather = async (): Promise<Weather[]> => {
 /// Pedestrian
 export const getPedestrian = async (): Promise<Pedestrian[]> => {
   try {
-    const response: AxiosResponse<Pedestrian[]> = await apiClient.get("/pedestrians");
+    const response: AxiosResponse<Pedestrian[]> = await apiClient.get(
+      "/pedestrians"
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching Pedestrian:", error);
@@ -119,10 +119,12 @@ export const getPedestrian = async (): Promise<Pedestrian[]> => {
   }
 };
 
-// Predictions 
+// Predictions
 export const getPredictions = async (): Promise<Predictions[]> => {
   try {
-    const response: AxiosResponse<Predictions[]> = await apiClient.get("/predictions");
+    const response: AxiosResponse<Predictions[]> = await apiClient.get(
+      "/predictions"
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching Predictions:", error);
@@ -130,10 +132,47 @@ export const getPredictions = async (): Promise<Predictions[]> => {
   }
 };
 
-export const getOptimalPath = async (): Promise<OptPath[]> => {
+export const getOptimalPath = async (): Promise<string[]> => {
   try {
     const response: AxiosResponse<OptPath[]> = await apiClient.get("/bins/optimal-path");
     return response.data;
+  } catch (error) {
+    console.error("Error fetching Predictions:", error);
+    throw error;
+  }
+};
+
+// exports
+export const exportBinInCsv = async (binId: string): Promise<void> => {
+  try {
+    const response: AxiosResponse<Blob> = await apiClient.get(
+      `/bins/export/${binId}`
+    );
+    const blob: Blob = new Blob([response.data], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `${binId}.csv`;
+    link.click();
+
+    // Clean up by revoking the blob URL
+    window.URL.revokeObjectURL(link.href);
+  } catch (error) {
+    console.error("Error fetching Predictions:", error);
+    throw error;
+  }
+};
+
+export const exportBinsInCsv = async (): Promise<void> => {
+  try {
+    const response: AxiosResponse<Blob> = await apiClient.get(`/bins/export`);
+    const blob: Blob = new Blob([response.data], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `bins.csv`;
+    link.click();
+
+    // Clean up by revoking the blob URL
+    window.URL.revokeObjectURL(link.href);
   } catch (error) {
     console.error("Error fetching Predictions:", error);
     throw error;
