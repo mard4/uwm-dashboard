@@ -64,30 +64,27 @@
   </mat-grid-tile>
   
   <mat-grid-tile colspan="2">
-    <canvas id="canvas" width="700" height="700"></canvas>
+    <div id="map"></div>
+
     <!-- <canvas id="myChart2" width="400" height="400"></canvas> -->
   </mat-grid-tile>
   
   <!-- Second Row -->
    <br>
    <br>
-  <mat-grid-tile colspan="4">
-    <div class="map-container">
-      <div class="map-frame">
-        <div id="map"></div>
+
+  
+  <!-- Third Row -->
+  <mat-grid-tile colspan="2" >
+    <div >
+      <div >
+        <canvas id="canvas" width="700" height="600"></canvas>
       </div>
     </div>
   </mat-grid-tile>
   
-  <!-- Third Row -->
   <mat-grid-tile colspan="2">
-    <!-- <div id="myDiv"></div> -->
-    optimal path
-    <!-- <canvas id="myChart3" width="400" height="400"></canvas> -->
-  </mat-grid-tile>
-  
-  <mat-grid-tile colspan="2">
-    optimal path
+    <div id="optPathMap" style="height: 400px;"></div>
   </mat-grid-tile>
 </mat-grid-list>
 <!--  -->

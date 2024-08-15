@@ -39,6 +39,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
 })
 export class DashboardComponent implements AfterViewInit {
   private map!: L.Map;
+  private optPathMap!: L.Map;
   private icon!: L.DivIcon;
 
   bins: Bin[] = [];
@@ -65,6 +66,7 @@ export class DashboardComponent implements AfterViewInit {
      
     });
 
+    
     this.bins = await this.getAllBins();
     this.fields = this.getObjectKeys(this.bins[0]); 
 
@@ -92,6 +94,7 @@ export class DashboardComponent implements AfterViewInit {
     this.Barplot(); 
     this.LineChart();
     this.initMap();
+    this.initOptPathMap(); // Initializes the second map for the optimal path
 
     //this.initPlotly();
     this.updatePlot();
@@ -175,16 +178,10 @@ export class DashboardComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     // this.initPlotly();
     // this.initMap();
+
   }
 
   private initMap(): void {
-    this.icon = L.divIcon({
-      html: '📍',
-      className: 'custom-div-icon',
-      iconSize: [100, 100],
-      iconAnchor: [12.5, 12.5]
-    });
-  
     this.map = L.map('map', {
       center: [-37.8026719, 144.9654493],
       zoom: 17,
@@ -203,7 +200,20 @@ export class DashboardComponent implements AfterViewInit {
     // Loop through the bins_details array and add a marker for each bin
     this.bins_details.forEach(bin => {
       if (bin.latitude && bin.longitude) {
-        const marker = L.marker([parseFloat(bin.latitude), parseFloat(bin.longitude)], { icon: this.icon });
+        // Assuming bin.fillLevel is a percentage (0 to 100)
+        const fillLevel = bin.fillLevel || 0;
+        const markerColor = fillLevel > 75 ? 'red' : fillLevel > 50 ? 'orange' : 'green';
+  
+        const markerIcon = L.divIcon({
+          html: `<div style="background-color: ${markerColor}; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                  ${fillLevel}%
+                 </div>`,
+          className: 'custom-div-icon',
+          iconSize: [40, 40],
+          iconAnchor: [20, 20]
+        });
+  
+        const marker = L.marker([parseFloat(bin.latitude), parseFloat(bin.longitude)], { icon: markerIcon });
         marker.addTo(this.map);
       }
     });
@@ -216,6 +226,63 @@ export class DashboardComponent implements AfterViewInit {
       this.map.invalidateSize();
     }, 0);
   }
+  
+  
+
+  // map 2 optpath
+  private initOptPathMap(): void {
+    this.optPathMap = L.map('optPathMap', {
+      center: [-37.8026719, 144.9654493],
+      zoom: 17,
+      zoomControl: true,
+      scrollWheelZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: false
+    });
+  
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(this.optPathMap);
+  
+    // Plot the optimized path with numbered markers
+    const latLngs = this.optpath.map((id: string, index: number) => {
+      const bin = this.bins_details.find(b => b.id === id);
+      if (bin) {
+        const markerIcon = L.divIcon({
+          html: `<div style="background-color: #007bff; color: white; border-radius: 50%; width: 30px; height: 30px; text-align: center; line-height: 30px;">
+                   ${index + 1}
+                 </div>`,
+          className: 'custom-marker',
+          iconSize: [30, 30],
+          iconAnchor: [15, 15]
+        });
+  
+        L.marker([parseFloat(bin.latitude), parseFloat(bin.longitude)], { icon: markerIcon })
+          .bindPopup(`Bin ID: ${bin.id}<br>Order: ${index + 1}`)
+          .addTo(this.optPathMap);
+  
+        return [parseFloat(bin.latitude), parseFloat(bin.longitude)] as [number, number];
+      }
+      return null;
+    }).filter((coords: [number, number] | null): coords is [number, number] => coords !== null);
+  
+    const polyline = L.polyline(latLngs, { color: 'blue' }).addTo(this.optPathMap);
+  
+    // Fit the map to the polyline
+    this.optPathMap.fitBounds(polyline.getBounds());
+  
+    window.addEventListener('resize', () => {
+      this.optPathMap.invalidateSize();
+    });
+  
+    setTimeout(() => {
+      this.optPathMap.invalidateSize();
+    }, 0);
+  }
+  
+
   
   ////////// CHARTS and KPIS //////////
   
@@ -350,4 +417,9 @@ export class DashboardComponent implements AfterViewInit {
     PlotlyJS.react('myDiv', data, layout);
   }
   
+  // routing alg
+
+  
+
+
 }
