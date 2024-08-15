@@ -132,7 +132,7 @@ export const getPredictions = async (): Promise<Predictions[]> => {
   }
 };
 
-export const getOptimalPath = async (): Promise<string[]> => {
+export const getOptimalPath = async (): Promise<OptPath[]> => {
   try {
     const response: AxiosResponse<OptPath[]> = await apiClient.get("/bins/optimal-path");
     return response.data;
