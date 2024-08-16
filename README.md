@@ -17,5 +17,5 @@ The backend of this dashboard is in another repository "uwm". If the backend is 
 
 ## Demo 
 ![HOmepage GIF](https://github.com/mard4/uwm-dashboard/blob/547d78075ec355e4bf7c5e86a2918232b4534360/readme/homepage.gif)
-![Dashboard](https://github.com/mard4/uwm-dashboard/blob/821ec8b91e0858bef9780ae1609f7c5eb9506620/readme/image_2024-08-09_16-11-14.png)
-![Alarms](https://github.com/mard4/uwm-dashboard/blob/821ec8b91e0858bef9780ae1609f7c5eb9506620/readme/image_2024-08-09_16-09-42.png)
+![Dashboard](https://github.com/mard4/uwm-dashboard/blob/7e8792086f93ea4b9c56d43f0c1e236a01e80f61/readme/Screenshot%20from%202024-08-16%2022-04-55.png)
+![Alarms](https://github.com/mard4/uwm-dashboard/blob/7e8792086f93ea4b9c56d43f0c1e236a01e80f61/readme/Screenshot%20from%202024-08-16%2022-05-19.png)
