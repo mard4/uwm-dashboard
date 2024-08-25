@@ -111,14 +111,20 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   private async getAllBins(): Promise<Bin[]> {
-    let bins: Bin[] = [];
     try {
-      bins = await getBins();
+      const bins = await getBins();
       console.log('Got bins data dashboard comp.', JSON.stringify(bins));
+  
+      return bins.map(bin => {
+        if (bin) {
+          bin.fillLevel = Math.min(bin.fillLevel, 100);
+        }
+        return bin;
+      }).filter(Boolean);
     } catch (error) {
       console.error("Error:", error);
+      return [];
     }
-    return bins;
   }
 
   private async getAllWeather(): Promise<Weather[]> {
@@ -201,7 +207,7 @@ export class DashboardComponent implements AfterViewInit {
     this.bins_details.forEach(bin => {
       if (bin.latitude && bin.longitude) {
         // Assuming bin.fillLevel is a percentage (0 to 100)
-        const fillLevel = bin.fillLevel || 0;
+        const fillLevel = bin.fillLevel ? Math.min(bin.fillLevel, 100) : 0;
         const markerColor = fillLevel > 75 ? 'red' : fillLevel > 50 ? 'orange' : 'green';
   
         const markerIcon = L.divIcon({
