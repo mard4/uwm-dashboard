@@ -66,13 +66,27 @@
 
 
 /* TYPEWRITER ANIMATION */
-.typewriter {
+h2.typewriter {
+  width: fit-content;
+  max-width: 1440px;
+  padding-bottom: 15px;
   overflow: hidden; /* Ensures the text is hidden until animated */
   border-right: .15em solid rgb(17, 17, 17); /* Cursor effect */
   white-space: nowrap; /* Keeps the text on a single line */
   margin: 0 auto; /* Centers the element */
   letter-spacing: .15em; /* Adjust as needed */
-  animation: typing 3.1s steps(30, end) 1s infinite, blink-caret .60s step-end infinite;
+  animation: typing 4s steps(50, end) 2s infinite, blink-caret .6s step-end infinite;
+}
+
+p.typewriter {
+  width: fit-content;
+  max-width: 580px;
+  overflow: hidden; /* Ensures the text is hidden until animated */
+  border-right: .15em solid rgb(17, 17, 17); /* Cursor effect */
+  white-space: nowrap; /* Keeps the text on a single line */
+  margin: 0 auto; /* Centers the element */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation: typing 4s steps(70, end) 2s infinite, blink-caret .6s step-end infinite;
 }
 
 @keyframes typing {
@@ -84,7 +98,6 @@
   from, to { border-color: transparent }
   50% { border-color: orange; }
 }
-
 
 /* FOOTER SECTION */
 .footer {

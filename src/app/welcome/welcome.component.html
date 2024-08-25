@@ -38,13 +38,12 @@
       <p>Keep the situation under control!</p>
     </div>
     <div
-      [routerLink]="['/machine-learning']"
-      routerLinkActive="active-link"
+      (click)="openDialog()"
       class="card"
     >
       <a class="icon">🧮</a>
       <h2>Other informations</h2>
-      <p>Here!</p>
+      <p>Click here to know more about our project!</p>
     </div>
   </div>
 

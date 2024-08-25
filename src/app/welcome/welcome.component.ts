@@ -1,41 +1,43 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Component } from "@angular/core";
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatCardModule } from "@angular/material/card";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatDialog, MatDialogModule, MatDialogActions, MatDialogContent, MatDialogClose } from "@angular/material/dialog";
+import { RouterOutlet, RouterLink, RouterLinkActive } from "@angular/router";
+import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'app-welcome',
+  selector: "app-welcome",
   standalone: true,
-  imports: [MatGridListModule, MatCardModule, MatTooltipModule,
+  imports: [
+    MatGridListModule,
+    MatCardModule,
+    MatTooltipModule,
     CommonModule,
-    RouterOutlet, RouterLink, RouterLinkActive
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatDialogModule
   ],
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  templateUrl: "./welcome.component.html",
+  styleUrls: ["./welcome.component.css"],
 })
-export class WelcomeComponent {//implements AfterViewInit {
-  // ngAfterViewInit(): void {
-  //   const typewriter = document.querySelector('.typewriter') as HTMLElement;
+export class WelcomeComponent {
+  constructor(public dialog: MatDialog) {}
 
-  //   const restartAnimation = () => {
-  //     if (typewriter) {
-  //       typewriter.style.animation = 'none';
-  //       setTimeout(() => {
-  //         typewriter.style.animation = '';
-  //         typewriter.style.animation = 'typing 3.1s steps(30, end) 1s forwards, blink-caret .60s step-end infinite';
-  //       }, 2000); // 2000ms delay before restarting the animation
-  //     }
-  //   };
+  openDialog() {
+    this.dialog.open(DialogContentExampleDialog);
+  }
+}
 
-  //   // Add an event listener to detect the end of the typing animation
-  //   if (typewriter) {
-  //     typewriter.addEventListener('animationend', (e: AnimationEvent) => {
-  //       if (e.animationName === 'typing') {
-  //         setTimeout(restartAnimation, 1000); // Delay before restarting
-  //       }
-  //     });
-  //   }
-  // }
+@Component({
+  selector: 'other-informations-dialog',
+  templateUrl: 'other-informations-dialog.html',
+})
+export class DialogContentExampleDialog {
+  constructor(public dialog: MatDialog) {}
+
+  closeDialog() {
+    this.dialog.closeAll();
+  }
 }

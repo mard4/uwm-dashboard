@@ -1,0 +1,123 @@
+<style type="text/css">
+  /* DIALOG SECTION */
+  .dialog {
+    background: white !important;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    position: relative;
+    width: 100%;
+    text-align: center;
+  }
+
+  .dialog-content {
+    display: flex;
+    flex-direction: column;
+    text-wrap: no-wrap;
+    margin-top: 20px;
+  }
+
+  h2 {
+    font-size: 4em;
+  }
+
+  h3 {
+    font-size: 2.6em;
+  }
+
+  p {
+    font-size: 1.2em;
+  }
+
+  /* CANCEL BUTTON */
+  .outer {
+    position: relative;
+    margin: auto;
+    width: 70px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  .inner {
+    width: 70px;
+    text-align: center;
+  }
+
+  label {
+    font-size: 1.2em;
+    line-height: 4em;
+    text-transform: uppercase;
+    color: black;
+    transition: all 0.3s ease-in;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .inner:before,
+  .inner:after {
+    position: absolute;
+    content: "";
+    height: 1px;
+    width: inherit;
+    background: red;
+    left: 0;
+    transition: all 0.3s ease-in;
+  }
+
+  .inner:before {
+    top: 50%;
+    transform: rotate(45deg);
+  }
+
+  .inner:after {
+    bottom: 50%;
+    transform: rotate(-45deg);
+  }
+
+  .outer:hover label {
+    opacity: 1;
+  }
+
+  .outer:hover .inner:before,
+  .outer:hover .inner:after {
+    transform: rotate(0);
+  }
+
+  .outer:hover .inner:before {
+    top: 0;
+  }
+
+  .outer:hover .inner:after {
+    bottom: 0;
+  }
+</style>
+<div class="dialog">
+  <div class="title">
+    <h2>Urban Waste Management</h2>
+  </div>
+  <div class="dialog-content">
+    <h3>Spremiagrumi</h3>
+    <p>
+      A-Abbronzatissima e bellissima Ha-Ha gli occhi come il mare, corpo che ti
+      fa fare Abbronzatissima, simpaticissima Ha-Ha in mano un Margarita e si
+      gode la vita.
+    </p>
+
+    <h3>Safe &amp; Sound</h3>
+    <p>
+      Sesso e samba, sesso e samba Come sesso e samba, sesso e samba Sesso e
+      samba, sesso e samba Non siamo troppo diversi come Sesso e samba, sesso e
+      samba Come sesso e samba, sesso e samba E la notte mi sbrana.
+    </p>
+  </div>
+  <div>
+    <div class="outer" (click)="closeDialog()">
+      <div class="inner">
+        <label>Back</label>
+      </div>
+    </div>
+  </div>
+</div>

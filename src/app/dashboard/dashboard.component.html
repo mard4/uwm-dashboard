@@ -60,6 +60,10 @@
 <mat-grid-list cols="4" rowHeight="1:1">
   <!-- First Row -->
   <mat-grid-tile colspan="2">
+    <div id="myChart-loading" class="loading" *ngIf="bins.length === 0">
+      <div class="spinner"></div>
+      <p>Loading data...</p>
+    </div>
     <canvas id="myChart" width="700" height="700"></canvas>
   </mat-grid-tile>
   
@@ -75,7 +79,10 @@
 
   <!-- Third Row -->
   <mat-grid-tile colspan="2" >
-    
+    <div id="canvas-loading" class="loading" *ngIf="bins.length === 0">
+      <div class="spinner"></div>
+      <p>Loading data...</p>
+    </div>
     <div >
       <div style="height: 400px;">
         <canvas id="canvas" width="700" height="600"></canvas>

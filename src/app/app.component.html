@@ -3,7 +3,7 @@
     <button mat-icon-button (click)="drawer.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    <div class="logo-title">
+    <div class="logo-title" style="cursor: pointer" [routerLink]="['/welcome']" routerLinkActive="active-link" >
       <span style="font-weight:bold;">Urban Waste Management</span>  
       &ensp;&ensp;&ensp;&ensp;
     <img src="/img/otherlogo3.png" alt="Logo" class="logo" width="60" height="50">
@@ -14,7 +14,7 @@
   <div class="main-container">
     <mat-drawer-container class="go-container" autosize>
       <mat-drawer #drawer class="go-sidenav" mode="side" opened="true">
-        <img src="/img/recycle-bin.png" alt="Logo" class="logo2" width="100" height="100">
+        <img style="cursor: pointer" [routerLink]="['/welcome']" routerLinkActive="active-link" src="/img/recycle-bin.png" alt="Logo" class="logo2" width="100" height="100">
         <mat-nav-list>
   
           <a mat-list-item routerLink="/welcome" routerLinkActive="active-link">
